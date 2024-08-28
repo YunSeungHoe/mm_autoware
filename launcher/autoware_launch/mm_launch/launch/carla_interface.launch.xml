@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- input topic name-->
+  <arg name="input_topic_carla_imu" default="/carla/ego_vehicle/imu"/>
+  <arg name="input_topic_carla_gnss" default="/carla/ego_vehicle/gnss"/>
+  <arg name="input_topic_carla_lidar" default="/carla/ego_vehicle/lidar"/>
+  <arg name="input_topic_carla_odometer" default="/carla/ego_vehicle/odometry"/>
+
+  <!-- output topic name-->
+  <arg name="output_topic_convert_imu" default="/sim/imu"/>
+  <arg name="output_topic_convert_gnss" default="/sim/gnss"/>
+  <arg name="output_topic_convert_lidar" default="/sim/lidar"/>
+  <arg name="output_topic_velocity_report" default="/interface/velocity_status"/>
+
+  <!-- carla -> autoware interface -->
+  <group>
+    <push-ros-namespace namespace="interface"/>
+    <include file="$(find-pkg-share sensing_interface)/launch/sensing_interface.launch.xml">
+      <arg name="imu_id" value="ego_vehicle/imu"/>
+      <arg name="gnss_id" value="ego_vehicle/gnss"/>
+      <arg name="lidar_id" value="ego_vehicle/lidar"/>
+
+      <arg name="input_carla_imu_topic" value="$(var input_topic_carla_imu)"/>
+      <arg name="input_carla_gnss_topic" value="$(var input_topic_carla_gnss)"/>
+      <arg name="input_carla_lidar_topic" value="$(var input_topic_carla_lidar)"/>
+
+      <arg name="output_convert_imu_topic" value="$(var output_topic_convert_imu)"/>
+      <arg name="output_convert_gnss_topic" value="$(var output_topic_convert_gnss)"/>
+      <arg name="output_convert_lidar_topic" value="$(var output_topic_convert_lidar)"/>
+    </include>
+
+    <!-- control interface -->
+    <include file="$(find-pkg-share carla_vehicle_status_reporter)/launch/carla_vehicle_status_reporter.launch.xml"/>
+    <include file="$(find-pkg-share carla_ackermann_controller)/launch/carla_ackermann_controller.launch.xml"/>
+  </group>
+</launch>

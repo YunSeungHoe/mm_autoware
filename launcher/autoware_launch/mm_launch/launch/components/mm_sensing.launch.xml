@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- input topic name-->
+  <arg name="input_topic_gnss" default="/sim/gnss"/>
+  <arg name="input_topic_imu" default="/sim/imu"/>
+  <arg name="input_topic_lidar" default="/sim/lidar"/>
+  <arg name="input_topic_velocity_report" default="/vehicle/status/velocity_status"/>
+  <!-- not use -->
+  <arg name="input_topic_orientation" default="/autoware_orientation"/>
+  <!-- output topic name-->
+  <arg name="output_topic_gnss_pose" default="gnss_pose"/>
+  <arg name="output_topic_gnss_pose_cov" default="pose_with_covariance"/>
+  <arg name="output_topic_imu_data" default="imu_data"/>
+  <arg name="output_topic_twist_cov" default="twist_with_covariance"/>
+  <arg name="output_topic_velocity_status" default="velocity_status"/>
+  <arg name="output_topic_pointcloud" default="outlier_filtered/pointcloud"/>
+
+  <!-- param path-->
+  <arg name="param_file_gnss" default="$(find-pkg-share gnss_poser)/config/gnss_poser.param.yaml"/>
+  <!-- 기존에 사용하던 파라미터 파일이랑 다름!!! -->
+  <arg name="param_file_imu" default="$(find-pkg-share imu_corrector)/config/imu_corrector.param.yaml"/>
+  <arg name="param_file_velocity" default="$(find-pkg-share vehicle_velocity_converter)/config/vehicle_velocity_converter.param.yaml"/>
+  
+
+  <arg name="use_pointcloud_container" default="true" description="launch pointcloud container"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  
+  <!-- lidar concat 사용하려면 true  -->
+  <arg name="use_concat_filter" default="true"/>
+
+  <group>
+    <push-ros-namespace namespace="sensing"/>
+    <group>
+      <push-ros-namespace namespace="gnss"/>
+      <include file="$(find-pkg-share gnss_poser)/launch/gnss_poser.launch.xml">
+        <arg name="input_topic_fix" value="$(var input_topic_gnss)"/>
+        <arg name="input_topic_orientation" value="$(var input_topic_orientation)"/>
+        <arg name="output_topic_gnss_pose" value="$(var output_topic_gnss_pose)"/>
+        <arg name="output_topic_gnss_pose_cov" value="$(var output_topic_gnss_pose_cov)"/>
+        <arg name="param_file" value="$(var param_file_gnss)"/>
+      </include>
+    </group>
+
+    <group>
+      <push-ros-namespace namespace="imu"/>
+      <include file="$(find-pkg-share imu_corrector)/launch/imu_corrector.launch.xml">
+        <arg name="input_topic" value="$(var input_topic_imu)"/>
+        <arg name="output_topic" value="$(var output_topic_imu_data)"/>
+        <arg name="param_file" value="$(var param_file_imu)"/>
+      </include>
+    </group>
+
+    <group>
+      <push-ros-namespace namespace="vehicle_velocity_converter"/>
+      <include file="$(find-pkg-share vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
+        <arg name="input_vehicle_velocity_topic" value="$(var input_topic_velocity_report)"/>
+        <arg name="output_twist_with_covariance" value="$(var output_topic_twist_cov)"/>
+        <arg name="config_file" value="$(var param_file_velocity)"/>
+      </include>
+    </group>
+    <!-- lidar_preprocess -->
+    <include file="$(find-pkg-share carla_sensor_kit_launch)/launch/sensing.launch.xml">
+      <arg name="use_pointcloud_container" value="false"/>
+      <arg name="pointcloud_container_name" value="pointcloud_container_locarlization"/>
+
+      <arg name="input" value="$(var input_topic_lidar)"/>
+      <arg name="output" value="$(var output_topic_pointcloud)"/>
+    </include>
+  </group>
+
+
+</launch>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>carla_ackermann_msgs</name>
+  <version>1.0.0</version>
+  <description>The carla_ackermann_msgs package</description>
+  <maintainer email="carla.simulator@gmail.com">CARLA Simulator Team</maintainer>
+  <license>MIT</license>
+  <url type="website">http://carla.org/</url>
+  <url type="repository">https://github.com/carla-simulator/ros-bridge</url>
+  <url type="bugtracker">https://github.com/carla-simulator/ros-bridge/issues</url>
+  <author email="carla.simulator@gmail.com">CARLA Simulator Team</author>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <build_depend>autoware_cmake</build_depend>
+
+  <build_depend>ros_environment</build_depend>
+
+  <depend condition="$ROS_VERSION == 2">builtin_interfaces</depend>
+  <depend>std_msgs</depend>
+  <depend>carla_msgs</depend>
+
+  <!-- <exec_depend condition="$ROS_VERSION == 1">message_runtime</exec_depend> -->
+  <exec_depend>rosidl_default_runtime</exec_depend> 
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

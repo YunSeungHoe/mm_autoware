@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="ctrl_period" default="0.03"/>
+  <arg name="max_accel" default="3.0"/>
+  <arg name="speed" default="9.0"/>
+  <arg name="accel_step" default="4"/>
+  <arg name="duration" default="1200"/>
+
+  <node pkg="control_cmd_publisher" exec="control_cmd_publisher_exe" name="control_cmd_publisher" output="screen">
+    <param name="ctrl_period" value="$(var ctrl_period)"/>
+    <param name="max_accel" value="$(var max_accel)"/>
+    <param name="speed" value="$(var speed)"/>
+    <param name="accel_step" value="$(var accel_step)"/>
+    <param name="duration" value="$(var duration)"/>
+  </node>
+</launch>

@@ -1,0 +1,21 @@
+<launch>
+  <!-- <arg name="launch_driver" default="true" description="do launch driver"/> -->
+  <arg name="vehicle_mirror_param_file" default="$(find-pkg-share carla_vehicle_description)/config/mirror.param.yaml"/>
+  <arg name="vehicle_param_file" default="$(find-pkg-share carla_vehicle_description)/config/vehicle_info.param.yaml"/>
+  <arg name="use_pointcloud_container" default="true" description="launch pointcloud container"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  
+
+  <group>
+    <!-- LiDAR Driver -->
+    <include file="$(find-pkg-share carla_sensor_kit_launch)/launch/lidar.launch.xml">
+      <arg name="vehicle_info_param_file" value="$(var vehicle_param_file)"/>
+      <!-- <arg name="launch_driver" value="$(var launch_driver)"/> -->
+      <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+      <arg name="use_pointcloud_container" value="$(var use_pointcloud_container)"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+    </include>
+  </group>
+
+
+</launch>

@@ -1,0 +1,44 @@
+<launch>
+  <arg name="imu_id" default="ego_vehicle/imu"/>
+  <arg name="gnss_id" default="ego_vehicle/gnss"/>
+  <arg name="lidar_id" default="ego_vehicle/lidar"/>
+  <!-- <arg name="camera_info_id" default="ego_vehicle/rgb_front"/> -->
+  <arg name="image_id" default="ego_vehicle/rgb_front"/>
+
+  <!-- input topic name-->
+  <arg name="input_carla_imu_topic" default="/carla/ego_vehicle/imu"/>
+  <arg name="input_carla_gnss_topic" default="/carla/ego_vehicle/gnss"/>
+  <arg name="input_carla_lidar_topic" default="/carla/ego_vehicle/lidar"/>
+  <!-- <arg name="input_carla_camera_info_topic" default="/carla/ego_vehicle/rgb_front/camera_info"/> -->
+  <arg name="input_carla_image_topic" default="/carla/ego_vehicle/rgb_front/image"/>
+
+  <!-- output topic name-->
+  <arg name="output_convert_imu_topic" default="/sim/imu"/>
+  <arg name="output_convert_gnss_topic" default="/sim/gnss"/>
+  <arg name="output_convert_lidar_topic" default="/sim/lidar"/>
+  <arg name="output_convert_camera_info_topic" default="/sensing/camera/camera0/camera_info"/>
+  <arg name="output_convert_image_topic" default="/sensing/camera/camera0/image_rect_color"/>
+
+  <node pkg="sensing_interface" exec="sensing_interface" name="carla_sensing_interface_node" output="screen">
+    <!-- tf -->
+    <param name="imu_tf" value="$(var imu_id)"/>
+    <param name="gnss_tf" value="$(var gnss_id)"/>
+    <param name="lidar_tf" value="$(var lidar_id)"/>
+    <!-- <param name="camera_info_tf" value="$(var camera_info_id)"/> -->
+    <param name="image_tf" value="$(var image_id)"/>
+
+    <!-- input -->
+    <param name="input_imu" value="$(var input_carla_imu_topic)"/>
+    <param name="input_gnss" value="$(var input_carla_gnss_topic)"/>
+    <param name="input_lidar" value="$(var input_carla_lidar_topic)"/>
+    <!-- <param name="input_camera_info" value="$(var input_carla_camera_info_topic)"/> -->
+    <param name="input_image" value="$(var input_carla_image_topic)"/>
+
+    <!-- output -->
+    <param name="output_imu" value="$(var output_convert_imu_topic)"/>
+    <param name="output_gnss" value="$(var output_convert_gnss_topic)"/>
+    <param name="output_lidar" value="$(var output_convert_lidar_topic)"/>
+    <param name="output_camera_info" value="$(var output_convert_camera_info_topic)"/>
+    <param name="output_image" value="$(var output_convert_image_topic)"/>
+  </node>
+</launch>

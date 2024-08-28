@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <node pkg="carla_control_msg_converter" exec="carla_control_msg_converter_exe" name="carla_control_msg_converter" output="screen">
+  </node>
+</launch>
+

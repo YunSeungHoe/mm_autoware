@@ -1,0 +1,28 @@
+<launch>
+  <arg name="Kp_speed" default="0.04"/>
+  <arg name="Ki_speed" default="0.0"/>
+  <arg name="Kd_speed" default="0.50"/>
+
+  <arg name="Kp_accel" default="0.04"/>
+  <arg name="Ki_accel" default="0.0001"/>
+  <arg name="Kd_accel" default="0.5"/>
+
+  <arg name="ctrl_period" default="0.03"/>
+  <arg name="role_name" default="ego_vehicle"/>
+  <arg name="use_speed_pid" default="false"/>
+  <arg name="min_accel" default="1.0"/>
+
+  <!-- engage_transition_manager -->
+  <node pkg="carla_ackermann_controller" exec="carla_ackermann_controller_exe" name="carla_ackermann_controller" output="screen">
+    <param name="Kp_speed" value="$(var Kp_speed)"/>
+    <param name="Ki_speed" value="$(var Ki_speed)"/>
+    <param name="Kd_speed" value="$(var Kd_speed)"/>
+    <param name="Kp_accel" value="$(var Kp_accel)"/>
+    <param name="Ki_accel" value="$(var Ki_accel)"/>
+    <param name="Kd_accel" value="$(var Kd_accel)"/>
+    <param name="ctrl_period" value="$(var ctrl_period)"/>
+    <param name="role_name" value="$(var role_name)"/>
+    <param name="use_speed_pid" value="$(var use_speed_pid)"/>
+    <param name="min_accel" value="$(var min_accel)"/>
+  </node>
+</launch>

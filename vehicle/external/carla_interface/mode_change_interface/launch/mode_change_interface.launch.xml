@@ -1,0 +1,4 @@
+<launch>
+  <arg name="map_id" default="map"/>
+  <node pkg="mode_change_interface" exec="mode_change_interface" name="carla_mode_change_interface_node" output="screen"/>
+</launch>

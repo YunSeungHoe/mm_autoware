@@ -1,0 +1,9 @@
+<launch>
+  <arg name="input_topic" default="/carla/ego_vehicle/odometry"/>
+  <arg name="output_twist_with_covariance" default="velocity_status"/>
+
+  <node pkg="carla_velocity_converter" exec="carla_velocity_converter" name="carla_velocity_converter" output="screen">
+    <remap from="/carla/ego_vehicle/odometry" to="$(var input_topic)"/>
+    <remap from="velocity_status" to="$(var output_twist_with_covariance)"/>
+  </node>
+</launch>
